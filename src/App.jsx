@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import FHIR from 'fhirclient';
 import { startLogin } from './auth';
-import { fetchLabObservations } from './fhir';
+import { fetchLabObservations, parseObs } from './fhir';
 
 function App() {
-  const [status, setStatus] = useState('idle');
-  const [patientId, setPatientId] = useState(null);
+    const [status, setStatus] = useState('idle');
+    const [patientId, setPatientId] = useState(null);
+    const [labs, setLabs] = useState([]);
 
   useEffect(() => {
     if (window.location.pathname === '/callback') {
@@ -17,8 +18,11 @@ function App() {
           return fetchLabObservations(client, client.patient.id);
         })
         .then(bundle => {
-          console.log('observation bundle:', bundle);
-          setStatus(`SUCCESS : got ${bundle.entry?.length ?? 0} observation(s), look at console`);
+            console.log('observation bundle:', bundle);
+            const parsed = parseObs(bundle);
+            console.log('parsed labs:', parsed)
+            setLabs(parsed);
+            setStatus(`SUCCESS : got ${bundle.entry?.length ?? 0} observation(s), look at console`);
         })
         .catch(err => {
           setStatus('ERROR');

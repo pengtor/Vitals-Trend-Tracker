@@ -21,6 +21,8 @@ function App() {
             console.log('observation bundle:', bundle);
             const parsed = parseObs(bundle);
             console.log('parsed labs:', parsed)
+            const glucoseData = parsed.filter(item => item.type === 'GLUCOSE');
+            console.log('glucose only:', glucoseData);
             setLabs(parsed);
             setStatus(`SUCCESS : got ${bundle.entry?.length ?? 0} observation(s), look at console`);
         })

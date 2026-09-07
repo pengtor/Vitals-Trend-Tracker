@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import FHIR from 'fhirclient';
 import { startLogin } from './auth';
+import { fetchLabObservations } from './fhir';
 
 function App() {
   const [status, setStatus] = useState('idle');
@@ -8,15 +9,20 @@ function App() {
 
   useEffect(() => {
     if (window.location.pathname === '/callback') {
-      setStatus('exchanging code for token...');
+      setStatus('exchange code for token');
       FHIR.oauth2.ready()
         .then(client => {
-          setStatus('success');
+          setStatus('authenticated, fetch labs');
           setPatientId(client.patient.id);
+          return fetchLabObservations(client, client.patient.id);
+        })
+        .then(bundle => {
+          console.log('observation bundle:', bundle);
+          setStatus(`SUCCESS : got ${bundle.entry?.length ?? 0} observation(s), look at console`);
         })
         .catch(err => {
-          setStatus('error');
-          console.error('Token exchange failed:', err);
+          setStatus('ERROR');
+          console.error('FAILED:', err);
         });
     }
   }, []);

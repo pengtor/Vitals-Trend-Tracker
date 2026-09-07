@@ -10,6 +10,5 @@ export async function fetchLabObservations(client, patientId) {
   const bundle = await client.request(
     `Observation?patient=${patientId}&code=${codes}&_sort=-date`
   );
-
-  return bundle;
+    return bundle;
 }

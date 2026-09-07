@@ -4,6 +4,11 @@ export const LOINC_CODES = {
   GLUCOSE: '2339-0',
 };
 
+export const REFERENCE_RANGES = {
+  A1C: { low: 0, high: 5.7 },       // >= 5.7% flagged
+  GLUCOSE: { low: 70, high: 99 },   // outside 70-99 mg/dL flagged
+};
+
 export async function fetchLabObservations(client, patientId) {
   const codes = `${LOINC_CODES.A1C},${LOINC_CODES.GLUCOSE}`;
 

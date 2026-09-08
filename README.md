@@ -31,9 +31,9 @@ Tracking A1C and glucose trends, rather than isolated readings, is central to di
 
 ## Build
 
-npm install
-npm run dev 
-Click "Connect to SMART Sandbox"
+- npm install
+- npm run dev 
+- Click "Connect to SMART Sandbox"
 
 ---
 

@@ -1,16 +1,42 @@
-# React + Vite
+# Vitals/Labs Trend Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small app that pulls a patient's A1C and glucose lab results from a SMART on FHIR sandbox and charts them over time, flagging the out of range values.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Why
 
-## React Compiler
+Tracking A1C and glucose trends, rather than isolated readings, is central to diabetes management. This project tries pulling that data from a real clinical data standard and visualizing it in a clinically useful way.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## How It Works
 
-## Expanding the ESLint configuration
+- Authenticates via SMART on FHIR (OAuth2 + PKCE) using the `fhirclient` library.
+- Queries Observation resources by LOINC code (A1C: `4548-4`, Glucose: `2339-0`).
+- Parses the FHIR response into clean data that is now chartable.
+- Renders both trends with `Recharts`, flagging the values outside of the normal ranges (A1c ≥ 5.7%, glucose outside 70–99 mg/dL).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Resources
+
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [fhirclient](https://www.npmjs.com/package/fhirclient) ~ SMART on FHIR OAuth2/PKCE client library.
+- [Recharts](https://recharts.org/)
+- [SMART on FHIR](https://docs.smarthealthit.org/) ~ the launch/auth standard this app implements.
+- [SMART Health IT Sandbox](https://launch.smarthealthit.org/) ~ the test server and synthetic patient data used.
+- [LOINC](https://loinc.org/) ~ the coding system used to identify lab types (A1C, glucose).
+
+---
+
+## Build
+
+npm install
+npm run dev 
+Click "Connect to SMART Sandbox"
+
+---
+
+## Data
+
+Uses SMART Health IT's public sandbox with synthetic (`Synthea`) patient data.

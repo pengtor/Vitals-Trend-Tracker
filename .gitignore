@@ -24,3 +24,11 @@ src/assets/react.svg
 src/assets/vite.svg
 src/assets/hero.png
 public/vite.svg
+vite.config.js
+package.json
+eslint.config.js
+package-lock.json
+/public
+src/assets
+src/..
+
